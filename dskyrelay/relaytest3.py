@@ -18,3 +18,5 @@ try:
             time.sleep(10)
             GPIO.output(Relay[0], GPIO.LOW)
             
+except:
+        GPIO.cleanup()
