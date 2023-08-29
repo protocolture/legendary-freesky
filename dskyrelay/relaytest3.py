@@ -10,13 +10,6 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(Relay[0], GPIO.OUT)
 GPIO.output(Relay[0], GPIO.HIGH)
-
-try:
-        for i in range(8):
-            GPIO.output(Relay[0], GPIO.LOW)
-            GPIO.output(Relay[0], GPIO.HIGH)
-            time.sleep(10)
-            GPIO.output(Relay[0], GPIO.LOW)
-            
-except:
-        GPIO.cleanup()
+time.sleep(10)
+GPIO.output(Relay[0], GPIO.LOW)
+GPIO.cleanup()
