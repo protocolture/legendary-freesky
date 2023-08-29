@@ -19,7 +19,7 @@ def main():
         error = ssh.stderr.readlines()
         print >>sys.stderr, "ERROR: %s" % error
     else:
-        print result
+        print (result)
     
 if __name__ == '__main__':
     main()
