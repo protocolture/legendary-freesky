@@ -7,22 +7,19 @@ COMMAND="sudo python3 /freesky/legendary-freesky/dskyrelay/relaytest3.py"
 
 def main():
  
-    
-
-
-ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
+    ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
-result = ssh.stdout.readlines()
+    result = ssh.stdout.readlines()
 
     print("This is the stub script for code dc.") 
     
-if result == []:
-    error = ssh.stderr.readlines()
-    print >>sys.stderr, "ERROR: %s" % error
-else:
-    print result
+    if result == []:
+        error = ssh.stderr.readlines()
+        print >>sys.stderr, "ERROR: %s" % error
+    else:
+        print result
     
 if __name__ == '__main__':
     main()
