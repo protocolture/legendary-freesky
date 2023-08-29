@@ -7,7 +7,7 @@ COMMAND="sudo python3 /freesky/legendary-freesky/dskyrelay/relaytest3.py"
 
 def main():
  
-    ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
+    ssh = subprocess.Popen(["ssh matt@192.168.109.59 -p matt", "%s" % HOST, COMMAND],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
