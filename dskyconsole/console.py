@@ -17,9 +17,9 @@ power_req = {
 }
 
 def adjust_reactor_power(adjustment):
-    current_power = int(r.get('Power'))
+    current_power = int(r.get('bar_graph_level'))
     current_power += adjustment
-    r.set('Power', str(current_power))
+    r.set('bar_graph_level', str(current_power))
 
 class Reactor:
     @staticmethod
