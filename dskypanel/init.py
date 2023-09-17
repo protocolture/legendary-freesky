@@ -17,3 +17,7 @@ for name in system_names:
 
 # Set default bar graph level to 1%
 r.set('bar_graph_level', '1')
+
+r.set('GOSMOKE','0')
+r.set('GOSMOKEMORE','0')
+
