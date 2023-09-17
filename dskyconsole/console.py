@@ -44,32 +44,32 @@ class Reactor:
 class EnvironmentalSystems:
     @staticmethod
     def On():
-        r.set('environmental_systems', 'ON')
+        r.set('EnvironmentalSystems', 'ON')
         adjust_reactor_power(power_req['environmental_systems'])
 
     @staticmethod
     def Off():
-        r.set('environmental_systems', 'OFF')
+        r.set('EnvironmentalSystems', 'OFF')
         adjust_reactor_power(-power_req['environmental_systems'])
 
     @staticmethod
     def Fault():
-        r.set('environmental_systems', 'FAULT')
+        r.set('EnvironmentalSystems', 'FAULT')
 
 class LifeSupport:
     @staticmethod
     def On():
-        r.set('life_support', 'ON')
+        r.set('LifeSupport', 'ON')
         adjust_reactor_power(power_req['life_support'])
 
     @staticmethod
     def Off():
-        r.set('life_support', 'OFF')
+        r.set('LifeSupport', 'OFF')
         adjust_reactor_power(-power_req['life_support'])
 
     @staticmethod
     def Fault():
-        r.set('life_support', 'FAULT')
+        r.set('LifeSupport', 'FAULT')
 
 class Comms:
     @staticmethod
@@ -91,32 +91,32 @@ class Comms:
 class DefensiveSystems:
     @staticmethod
     def On():
-        r.set('Defensive Systems', 'ON')
+        r.set('DefensiveSystems', 'ON')
         adjust_reactor_power(power_req['Defensive Systems'])
 
     @staticmethod
     def Off():
-        r.set('Defensive Systems', 'OFF')
+        r.set('DefensiveSystems', 'OFF')
         adjust_reactor_power(-power_req['Defensive Systems'])
 
     @staticmethod
     def Fault():
-        r.set('Defensive Systems', 'FAULT')
+        r.set('DefensiveSystems', 'FAULT')
 
 class PsychicDiffuser:
     @staticmethod
     def On():
-        r.set('psychic_diffuser', 'ON')
+        r.set('PsychicDiffuser', 'ON')
         adjust_reactor_power(power_req['psychic_diffuser'])
 
     @staticmethod
     def Off():
-        r.set('psychic_diffuser', 'OFF')
+        r.set('PsychicDiffuser', 'OFF')
         adjust_reactor_power(-power_req['psychic_diffuser'])
 
     @staticmethod
     def Fault():
-        r.set('psychic_diffuser', 'FAULT')
+        r.set('PsychicDiffuser', 'FAULT')
 
 class Maglev:
     @staticmethod
@@ -136,32 +136,32 @@ class Maglev:
 class AccessControl:
     @staticmethod
     def On():
-        r.set('Access Control', 'ON')
+        r.set('AccessControl', 'ON')
         adjust_reactor_power(power_req['Access Control'])
 
     @staticmethod
     def Off():
-        r.set('Access Control', 'OFF')
+        r.set('AccessControl', 'OFF')
         adjust_reactor_power(-power_req['Access Control'])
 
     @staticmethod
     def Fault():
-        r.set('Access Control', 'FAULT')
+        r.set('AccessControl', 'FAULT')
 
 class SpiritContainmentField:
     @staticmethod
     def On():
-        r.set('spirit_containment_field', 'ON')
+        r.set('SpiritContainmentField', 'ON')
         adjust_reactor_power(power_req['spirit_containment_field'])
 
     @staticmethod
     def Off():
-        r.set('spirit_containment_field', 'OFF')
+        r.set('SpiritContainmentField', 'OFF')
         adjust_reactor_power(-power_req['spirit_containment_field'])
 
     @staticmethod
     def Fault():
-        r.set('spirit_containment_field', 'FAULT')
+        r.set('SpiritContainmentField', 'FAULT')
 
 # The code map 
 code_map = {
