@@ -38,186 +38,83 @@ for status, states in status_indicators.items():
 r.set('Power', '0')
 
 def get_reactor_power():
-    return int(r.get('Power') or 0)
+    return int(r.get('Power'))
 
-def set_reactor_power(value):
-    r.set('Power', str(value))
+def set_reactor_power(power):
+    r.set('Power', str(power))
 
-class BaseProgram:
-    def __init__(self, system_name):
-        self.system_name = system_name
+class Reactor:
+    system_name = "Reactor"
 
-    def set_status(self, status):
-        r.set(self.system_name, status)
-
-    def adjust_reactor_power(self, adjustment):
+    @staticmethod
+    def adjust_reactor_power(adjustment):
         current_power = get_reactor_power()
         current_power += adjustment
         set_reactor_power(current_power)
 
-    def execute(self):
-        pass  # Placeholder to be overridden
+    class On:
+        @staticmethod
+        def execute():
+            r.set(Reactor.system_name, 'ON')
+            Reactor.adjust_reactor_power(1)
 
-class Reactor(BaseProgram):
-    def __init__(self):
-        super().__init__("Reactor")
+    class Off:
+        @staticmethod
+        def execute():
+            r.set(Reactor.system_name, 'COLD')
 
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(1)
+    class Scram:
+        @staticmethod
+        def execute():
+            r.set(Reactor.system_name, 'SCRAM')
 
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('COLD')
+class SystemWithPowerReq:
+    @staticmethod
+    def adjust_reactor_power(adjustment):
+        current_power = get_reactor_power()
+        current_power += adjustment
+        set_reactor_power(current_power)
 
-    class Scram(BaseProgram):
-        def execute(self):
-            self.set_status('SCRAM')
+    class On:
+        @staticmethod
+        def execute():
+            r.set(SystemWithPowerReq.system_name, 'ON')
+            SystemWithPowerReq.adjust_reactor_power(power_req[SystemWithPowerReq.system_name])
 
-class EnvironmentalSystems(BaseProgram):
-    def __init__(self):
-        super().__init__("environmental_systems")
+    class Off:
+        @staticmethod
+        def execute():
+            r.set(SystemWithPowerReq.system_name, 'OFF')
+            SystemWithPowerReq.adjust_reactor_power(-power_req[SystemWithPowerReq.system_name])
 
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
+    class Fault:
+        @staticmethod
+        def execute():
+            r.set(SystemWithPowerReq.system_name, 'FAULT')
 
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
+class EnvironmentalSystems(SystemWithPowerReq):
+    system_name = "environmental_systems"
 
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
+class LifeSupport(SystemWithPowerReq):
+    system_name = "life_support"
 
-class LifeSupport(BaseProgram):
-    def __init__(self):
-        super().__init__("life_support")
+class Comms(SystemWithPowerReq):
+    system_name = "Comms"
 
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
+class DefensiveSystems(SystemWithPowerReq):
+    system_name = "Defensive Systems"
 
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
+class PsychicDiffuser(SystemWithPowerReq):
+    system_name = "psychic_diffuser"
 
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
+class Maglev(SystemWithPowerReq):
+    system_name = "Maglev"
 
-class Comms(BaseProgram):
-    def __init__(self):
-        super().__init__("Comms")
+class AccessControl(SystemWithPowerReq):
+    system_name = "Access Control"
 
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
-
-class DefensiveSystems(BaseProgram):
-    def __init__(self):
-        super().__init__("Defensive Systems")
-
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
-
-class PsychicDiffuser(BaseProgram):
-    def __init__(self):
-        super().__init__("psychic_diffuser")
-
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
-
-class Maglev(BaseProgram):
-    def __init__(self):
-        super().__init__("Maglev")
-
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
-
-class AccessControl(BaseProgram):
-    def __init__(self):
-        super().__init__("Access Control")
-
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
-
-class SpiritContainmentField(BaseProgram):
-    def __init__(self):
-        super().__init__("spirit_containment_field")
-
-    class On(BaseProgram):
-        def execute(self):
-            self.set_status('ON')
-            self.adjust_reactor_power(power_req[self.system_name])
-
-    class Off(BaseProgram):
-        def execute(self):
-            self.set_status('OFF')
-            self.adjust_reactor_power(-power_req[self.system_name])
-
-    class Fault(BaseProgram):
-        def execute(self):
-            self.set_status('FAULT')
+class SpiritContainmentField(SystemWithPowerReq):
+    system_name = "spirit_containment_field"
             
 # Mapping of code inputs to specific program executions
 code_map = {
@@ -243,9 +140,8 @@ code_map = {
 
 while True:
     input_code = int(input("Enter the code: "))  # Receive code input
-    program_class = code_map.get(input_code)
-    if program_class:
-        program_instance = program_class()
-        program_instance.execute()
+    program_to_execute = code_map.get(input_code)
+    if program_to_execute:
+        program_to_execute.execute()
     else:
         print("Invalid Code")
