@@ -64,9 +64,15 @@ status_light_names = [
 while True:
     # Update named status lights
     for i, light_name in enumerate(status_light_names):
-        status_str = r.get(light_name).decode('utf-8')
-        # Convert status string to its corresponding RGB value
-        color = status_to_rgb.get(status_str, (255, 0, 0))  # Default to red if status is not recognized
+        status_data = r.get(light_name)
+        
+        if status_data is None:
+            color = (255, 0, 0)  # Default to red if the key is not found in Redis
+        else:
+            status_str = status_data.decode('utf-8')
+            # Convert status string to its corresponding RGB value
+            color = status_to_rgb.get(status_str, (255, 0, 0))  # Default to red if status is not recognized
+        
         set_status_light(i, color)
 
     # Update bar graph
