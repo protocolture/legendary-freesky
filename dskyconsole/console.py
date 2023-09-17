@@ -51,9 +51,9 @@ class BaseProgram:
         r.set(self.system_name, status)
 
     def adjust_reactor_power(self, adjustment):
-    current_power = get_reactor_power()
-    current_power += adjustment
-    set_reactor_power(current_power)
+        current_power = get_reactor_power()
+        current_power += adjustment
+        set_reactor_power(current_power)
 
     def execute(self):
         pass  # Placeholder to be overridden
