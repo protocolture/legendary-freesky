@@ -34,18 +34,39 @@ def set_bar_graph(level):
         else:
             pixels[STATUS_LIGHTS + i] = (0, 0, 0)
 
-# Name of the status lights based on the updated systems
-status_light_names = ["Reactor", "EnvironmentalSystems", "LifeSupport", "Comms", 
-                      "DefensiveSystems", "PsychicDiffuser", "Maglev", 
-                      "AccessControl", "SpiritContainmentField", 
-                      "status_light_10", "status_light_11", "status_light_12"]
+# Status to RGB mapping
+status_to_rgb = {
+    'NOMINAL': (0, 255, 0),
+    'COLD': (0, 0, 255),
+    'SCRAM': (255, 0, 0),
+    'RUNAWAY': (255, 0, 0),
+    'ON': (0, 255, 0),
+    'OFF': (0, 0, 255),
+    'FAULT': (255, 0, 0),
+}
+
+# Updated names of the status lights based on your given systems
+status_light_names = [
+    "Reactor", 
+    "EnvironmentalSystems", 
+    "LifeSupport", 
+    "Comms", 
+    "DefensiveSystems", 
+    "PsychicDiffuser", 
+    "Maglev", 
+    "AccessControl", 
+    "SpiritContainmentField",
+    "Placeholder_10",
+    "Placeholder_11",
+    "Placeholder_12"
+]
 
 while True:
     # Update named status lights
     for i, light_name in enumerate(status_light_names):
-        color_str = r.get(light_name).decode('utf-8')
-        # Convert string representation of tuple to actual tuple
-        color = tuple(map(int, color_str.strip('()').split(',')))
+        status_str = r.get(light_name).decode('utf-8')
+        # Convert status string to its corresponding RGB value
+        color = status_to_rgb.get(status_str, (255, 0, 0))  # Default to red if status is not recognized
         set_status_light(i, color)
 
     # Update bar graph
