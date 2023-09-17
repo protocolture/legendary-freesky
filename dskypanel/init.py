@@ -13,7 +13,7 @@ system_names = [
 
 # Set default status of all systems to red
 for name in system_names:
-    r.set(name, "(255, 0, 0)")
+    r.set(name, "(128, 0, 0)")
 
 # Set default bar graph level to 1%
 r.set('bar_graph_level', '1')

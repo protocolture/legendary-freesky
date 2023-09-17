@@ -36,13 +36,13 @@ def set_bar_graph(level):
 
 # Status to RGB mapping
 status_to_rgb = {
-    'NOMINAL': (0, 255, 0),
-    'COLD': (0, 0, 255),
-    'SCRAM': (255, 0, 0),
-    'RUNAWAY': (255, 0, 0),
-    'ON': (0, 255, 0),
-    'OFF': (0, 0, 255),
-    'FAULT': (255, 0, 0),
+    'NOMINAL': (0, 128, 0),
+    'COLD': (0, 0, 128),
+    'SCRAM': (128, 0, 0),
+    'RUNAWAY': (128, 0, 0),
+    'ON': (0, 128, 0),
+    'OFF': (0, 0, 128),
+    'FAULT': (128, 0, 0),
 }
 
 # Updated names of the status lights based on your given systems
