@@ -4,11 +4,6 @@ import time
 # Redis connection
 r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 
-# RGB Tuples for various statuses
-STATUS_ON = (255, 0, 0)
-STATUS_OFF = (0, 255, 0)
-STATUS_FAULT = (255, 255, 0)
-
 # Power requirement for each system
 power_req = {
     'life_support': 10,
@@ -29,142 +24,144 @@ def adjust_reactor_power(adjustment):
 class Reactor:
     @staticmethod
     def Nominal():
-        r.set('Reactor', str(STATUS_ON))
+        r.set('Reactor', 'NOMINAL')
         adjust_reactor_power(1)
 
     @staticmethod
     def Cold():
-        r.set('Reactor', str(STATUS_OFF))
+        r.set('Reactor', 'COLD')
 
     @staticmethod
     def Scram():
-        r.set('Reactor', str(STATUS_FAULT))
+        r.set('Reactor', 'SCRAM')
         adjust_reactor_power(-1)
 
     @staticmethod
     def Runaway():
-        r.set('Reactor', str(STATUS_ON))
+        r.set('Reactor', 'RUNAWAY')
         adjust_reactor_power(2)
 
 class EnvironmentalSystems:
     @staticmethod
     def On():
-        r.set('environmental_systems', str(STATUS_ON))
+        r.set('environmental_systems', 'ON')
         adjust_reactor_power(power_req['environmental_systems'])
 
     @staticmethod
     def Off():
-        r.set('environmental_systems', str(STATUS_OFF))
+        r.set('environmental_systems', 'OFF')
         adjust_reactor_power(-power_req['environmental_systems'])
 
     @staticmethod
     def Fault():
-        r.set('environmental_systems', str(STATUS_FAULT))
+        r.set('environmental_systems', 'FAULT')
 
 class LifeSupport:
     @staticmethod
     def On():
-        r.set('life_support', str(STATUS_ON))
+        r.set('life_support', 'ON')
         adjust_reactor_power(power_req['life_support'])
 
     @staticmethod
     def Off():
-        r.set('life_support', str(STATUS_OFF))
+        r.set('life_support', 'OFF')
         adjust_reactor_power(-power_req['life_support'])
 
     @staticmethod
     def Fault():
-        r.set('life_support', str(STATUS_FAULT))
+        r.set('life_support', 'FAULT')
 
 class Comms:
     @staticmethod
     def On():
-        r.set('Comms', str(STATUS_ON))
+        r.set('Comms', 'ON')
         adjust_reactor_power(power_req['Comms'])
 
     @staticmethod
     def Off():
-        r.set('Comms', str(STATUS_OFF))
+        r.set('Comms', 'OFF')
         adjust_reactor_power(-power_req['Comms'])
 
     @staticmethod
     def Fault():
-        r.set('Comms', str(STATUS_FAULT))
+        r.set('Comms', 'FAULT')
+
+# ... Continuing for all the systems ...
 
 class DefensiveSystems:
     @staticmethod
     def On():
-        r.set('Defensive Systems', str(STATUS_ON))
+        r.set('Defensive Systems', 'ON')
         adjust_reactor_power(power_req['Defensive Systems'])
 
     @staticmethod
     def Off():
-        r.set('Defensive Systems', str(STATUS_OFF))
+        r.set('Defensive Systems', 'OFF')
         adjust_reactor_power(-power_req['Defensive Systems'])
 
     @staticmethod
     def Fault():
-        r.set('Defensive Systems', str(STATUS_FAULT))
+        r.set('Defensive Systems', 'FAULT')
 
 class PsychicDiffuser:
     @staticmethod
     def On():
-        r.set('psychic_diffuser', str(STATUS_ON))
+        r.set('psychic_diffuser', 'ON')
         adjust_reactor_power(power_req['psychic_diffuser'])
 
     @staticmethod
     def Off():
-        r.set('psychic_diffuser', str(STATUS_OFF))
+        r.set('psychic_diffuser', 'OFF')
         adjust_reactor_power(-power_req['psychic_diffuser'])
 
     @staticmethod
     def Fault():
-        r.set('psychic_diffuser', str(STATUS_FAULT))
+        r.set('psychic_diffuser', 'FAULT')
 
 class Maglev:
     @staticmethod
     def On():
-        r.set('Maglev', str(STATUS_ON))
+        r.set('Maglev', 'ON')
         adjust_reactor_power(power_req['Maglev'])
 
     @staticmethod
     def Off():
-        r.set('Maglev', str(STATUS_OFF))
+        r.set('Maglev', 'OFF')
         adjust_reactor_power(-power_req['Maglev'])
 
     @staticmethod
     def Fault():
-        r.set('Maglev', str(STATUS_FAULT))
+        r.set('Maglev', 'FAULT')
 
 class AccessControl:
     @staticmethod
     def On():
-        r.set('Access Control', str(STATUS_ON))
+        r.set('Access Control', 'ON')
         adjust_reactor_power(power_req['Access Control'])
 
     @staticmethod
     def Off():
-        r.set('Access Control', str(STATUS_OFF))
+        r.set('Access Control', 'OFF')
         adjust_reactor_power(-power_req['Access Control'])
 
     @staticmethod
     def Fault():
-        r.set('Access Control', str(STATUS_FAULT))
+        r.set('Access Control', 'FAULT')
 
 class SpiritContainmentField:
     @staticmethod
     def On():
-        r.set('spirit_containment_field', str(STATUS_ON))
+        r.set('spirit_containment_field', 'ON')
         adjust_reactor_power(power_req['spirit_containment_field'])
 
     @staticmethod
     def Off():
-        r.set('spirit_containment_field', str(STATUS_OFF))
+        r.set('spirit_containment_field', 'OFF')
         adjust_reactor_power(-power_req['spirit_containment_field'])
 
     @staticmethod
     def Fault():
-        r.set('spirit_containment_field', str(STATUS_FAULT))
+        r.set('spirit_containment_field', 'FAULT')
 
 # The code map 
 code_map = {
