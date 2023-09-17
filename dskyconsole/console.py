@@ -20,26 +20,78 @@ def adjust_reactor_power(adjustment):
     current_power = int(r.get('bar_graph_level'))
     current_power += adjustment
     r.set('bar_graph_level', str(current_power))
+    
+def GracefulShutdown():
+    r.set('Reactor', 'SCRAM')
+    r.set('EnvironmentalSystems', 'OFF')
+    r.set('LifeSupport', 'OFF')
+    r.set('Comms', 'OFF')
+    r.set('DefensiveSystems', 'OFF')
+    r.set('PsychicDiffuser', 'OFF')
+    r.set('Maglev', 'OFF')
+    r.set('AccessControl', 'OFF')
+    r.set('SpiritContainmentField', 'OFF')
+    
+def EmergencyShutdown():
+    r.set('Reactor', 'RUNAWAY')
+    r.set('EnvironmentalSystems', 'OFF')
+    r.set('LifeSupport', 'OFF')
+    r.set('Comms', 'OFF')
+    r.set('DefensiveSystems', 'OFF')
+    r.set('PsychicDiffuser', 'OFF')
+    r.set('Maglev', 'OFF')
+    r.set('AccessControl', 'OFF')
+    r.set('SpiritContainmentField', 'OFF')
+
+
+def check_reactor_power():
+    if current_power > 100:
+        current_power = 0
+        EmergencyShutdown()
+        RunawayReactor()
+        r.set('bar_graph_level', str(current_power))
+    
+def EmergencyState():
+    #Placeholder
+    
+def ReactorCooling():
+    #Placeholder 
+    
+def RunawayReactor():
+    #Dialogue: Warning, Reactor Critical. 3 minutes until reactor breach. 
+
+state = "0000"
 
 class Reactor:
+
+    PreNominal = {
+    '2001','0000'
+    }
+    
     @staticmethod
     def Nominal():
-        r.set('Reactor', 'NOMINAL')
-        adjust_reactor_power(1)
-
+        if state in PreNominal:
+            r.set('Reactor', 'NOMINAL')
+            adjust_reactor_power(1)
+            state = "1001"    
+        
     @staticmethod
     def Cold():
         r.set('Reactor', 'COLD')
+        state = "2001"
 
     @staticmethod
     def Scram():
         r.set('Reactor', 'SCRAM')
         adjust_reactor_power(-1)
+        state = "3001"
+        
 
     @staticmethod
     def Runaway():
         r.set('Reactor', 'RUNAWAY')
         adjust_reactor_power(2)
+        state = "4001"
 
 class EnvironmentalSystems:
     @staticmethod
@@ -195,7 +247,6 @@ code_map = {
     3009: SpiritContainmentField.Fault,
 }
 
-# A simple executor to activate the systems based on the entered code
 def execute_system(code):
     if code in code_map:
         code_map[code]()
