@@ -98,15 +98,18 @@ class EnvironmentalSystems:
     def On():
         r.set('EnvironmentalSystems', 'ON')
         adjust_reactor_power(power_req['environmental_systems'])
-
+        state = "1002"
+        
     @staticmethod
     def Off():
         r.set('EnvironmentalSystems', 'OFF')
         adjust_reactor_power(-power_req['environmental_systems'])
+        state = "2002"
 
     @staticmethod
     def Fault():
         r.set('EnvironmentalSystems', 'FAULT')
+        state = "3002"
 
 class LifeSupport:
     @staticmethod
