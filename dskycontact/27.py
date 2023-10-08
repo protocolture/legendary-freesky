@@ -10,6 +10,9 @@ def main():
     r.set('GOSMOKE', '1')
     r.set('Smokeseconds', '5')
     r.set('SC1', '1')
+    r.set('SC2', '1')
+    r.set('SC3', '1')
+    r.set('SC4', '1')
     r.set('SCSeconds', '5')
 
 if __name__ == '__main__':
