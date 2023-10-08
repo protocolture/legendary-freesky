@@ -4,7 +4,7 @@ import time
 
 # Set up the GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(5, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(5, GPIO.OUT, initial=GPIO.HIGH)
 
 # Connect to Redis
 r = redis.Redis(host='192.168.20.71', port=6379, db=0)
@@ -24,9 +24,9 @@ try:
             # If GOSMOKE is True and smoke_seconds is a positive number
             if go_smoke and smoke_seconds > 0:
                 print("Command received: GOSMOKE for", smoke_seconds, "seconds")
-                GPIO.output(5, GPIO.HIGH)  # Set pin 5 HIGH to close relay
+                GPIO.output(5, GPIO.LOW)  # Set pin 5 HIGH to close relay
                 time.sleep(smoke_seconds)  # Keep it HIGH for 'smoke_seconds' seconds
-                GPIO.output(5, GPIO.LOW)   # Set pin 5 LOW to open relay
+                GPIO.output(5, GPIO.HIGH)   # Set pin 5 LOW to open relay
                 
                 # Reset GOSMOKE to False in Redis after execution
                 r.set('GOSMOKE', '0')
