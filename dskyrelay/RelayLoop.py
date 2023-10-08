@@ -3,56 +3,52 @@ import RPi.GPIO as GPIO
 import time
 
 # Set up the GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(5, GPIO.OUT, initial=GPIO.HIGH)  # Assuming HIGH is off for relay
-GPIO.setup([6, 13, 16, 19], GPIO.OUT, initial=GPIO.HIGH)  # SC1-4
+GPIO.setmode(GPIO.BCM)  
+GPIO.setup(5, GPIO.OUT, initial=GPIO.HIGH)  # GOSMOKE
+GPIO.setup([6, 13, 16, 19], GPIO.OUT, initial=GPIO.HIGH)  # SCs
 
 # Connect to Redis
 r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 
 try:
-    # Retrieve and decode Redis values
-    go_smoke = bool(int(r.get('GOSMOKE').decode('utf-8')))
-    smoke_seconds = int(r.get('Smokeseconds').decode('utf-8'))
-    sc_states = [bool(int(r.get(f'SC{i}').decode('utf-8'))) for i in range(1, 5)]
-
-    # Identify active SCs and their corresponding pins
-    sc_pins = [pin for state, pin in zip(sc_states, [6, 13, 16, 19]) if state]
-
-    # Determine if any action should be taken
-    if go_smoke or any(sc_states):
-        # Determine max duration: Smoke time or SC time
-        sc_seconds = int(r.get('SCseconds').decode('utf-8'))
+    while True:
+        # Fetch data from Redis
+        go_smoke = r.get('GOSMOKE')
+        smoke_seconds = r.get('Smokeseconds')
+        sc1 = r.get('SC1')
+        sc_seconds = r.get('SCseconds')
+        
+        # Decode and type convert fetched data
+        go_smoke = bool(int(go_smoke.decode('utf-8'))) if go_smoke else False
+        smoke_seconds = int(smoke_seconds.decode('utf-8')) if smoke_seconds else 0
+        sc1 = bool(int(sc1.decode('utf-8'))) if sc1 else False
+        sc_seconds = int(sc_seconds.decode('utf-8')) if sc_seconds else 0
+        
+        # Determine max duration to prevent issues if both commands arrive at once
         max_duration = max(smoke_seconds, sc_seconds)
-
-        # Log action
-        print(f"Actions for {max_duration}s -> GOSMOKE: {go_smoke}, SCs: {sc_states}")
-
-        # Activate Relays
-        if go_smoke:
-            GPIO.output(5, GPIO.LOW)  # Start GOSMOKE
-        if sc_pins:
-            GPIO.output(sc_pins, GPIO.LOW)  # Start SCs
-
-        # Sleep for the longest duration
-        time.sleep(max_duration)
-
-        # Deactivate all
-        GPIO.output([5] + sc_pins, GPIO.HIGH)
-
-        # Reset states in Redis
-        r.set('GOSMOKE', '0')
-        for i in range(1, 5):
-            r.set(f'SC{i}', '0')
-
-    else:
-        print("Waiting for valid command...")
-        time.sleep(1)
+        
+        # Operate GOSMOKE and SCs based on conditions
+        if go_smoke or sc1:
+            if go_smoke:
+                GPIO.output(5, GPIO.LOW)  # Activate GOSMOKE
+            if sc1:
+                GPIO.output([6, 13, 16, 19], GPIO.LOW)  # Activate SCs
+                
+            time.sleep(max_duration)  # Hold for the longer of the durations
+            
+            # Deactivate relays after holding
+            GPIO.output([5, 6, 13, 16, 19], GPIO.HIGH)
+            
+            # Reset GOSMOKE and SC1 in Redis
+            r.set('GOSMOKE', '0')
+            r.set('SC1', '0')
+            
+        else:
+            print("Waiting for command...")
+            time.sleep(1)
 
 except KeyboardInterrupt:
     print("Interrupted by user")
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
 
 finally:
     GPIO.cleanup()
