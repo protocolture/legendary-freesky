@@ -16,6 +16,7 @@ try:
         smoke_seconds = r.get('Smokeseconds')
         
         if go_smoke and smoke_seconds:
+            logging.debug("GOSMOKE: %s, Smokeseconds: %s", go_smoke, smoke_seconds)
             # Decode byte strings from Redis and convert to appropriate types
             go_smoke = bool(int(go_smoke.decode('utf-8')))
             smoke_seconds = int(smoke_seconds.decode('utf-8'))
