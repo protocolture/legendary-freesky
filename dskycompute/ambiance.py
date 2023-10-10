@@ -11,11 +11,13 @@ def run_bash_script(script_path):
         print("Script failed:", e.stderr)
 
 def random_sleep(min_times, max_times, hour=3600):
+    print("Random Sleeping")
     for _ in range(random.randint(min_times, max_times)):
         time.sleep(random.uniform(0, hour / min_times))
         yield
 
 def set_gosmoke(duration):
+    print("Smoking")
     # Connect to Redis
     r = redis.Redis(host='192.168.20.71', port=6379, db=0)
     # Set GOSMOKE to True (1) and Smokeseconds to desired value (e.g., 5 seconds)
@@ -34,8 +36,8 @@ while True:
     for _ in random_sleep(1, 4):
         # Determine the duration lights will be off (between 5 and 15 seconds for instance)
         light_off_duration = random.randint(5, 15)
-        run_bash_script("/path/to/light_off.bash")
+        run_bash_script("./light_off.bash")
         print("Lights off. Sleeping for", light_off_duration, "seconds.")
         time.sleep(light_off_duration)
-        run_bash_script("/path/to/light_on.bash")
+        run_bash_script("./light_on.bash")
         print("Lights on.")
