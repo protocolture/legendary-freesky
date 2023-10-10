@@ -1,0 +1,41 @@
+import time
+import random
+import subprocess
+import redis
+
+def run_bash_script(script_path):
+    try:
+        result = subprocess.run(["bash", script_path], check=True, text=True, capture_output=True)
+        print("Script output:", result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("Script failed:", e.stderr)
+
+def random_sleep(min_times, max_times, hour=3600):
+    for _ in range(random.randint(min_times, max_times)):
+        time.sleep(random.uniform(0, hour / min_times))
+        yield
+
+def set_gosmoke(duration):
+    # Connect to Redis
+    r = redis.Redis(host='192.168.20.71', port=6379, db=0)
+    # Set GOSMOKE to True (1) and Smokeseconds to desired value (e.g., 5 seconds)
+    r.set('GOSMOKE', '1')
+    r.set('Smokeseconds', str(duration))
+
+# Main Loop
+while True:
+    # GOSMOKE Actions: 5-20 times per hour, duration 3-10 seconds
+    for _ in random_sleep(5, 20):
+        smoke_duration = random.randint(3, 10)
+        set_gosmoke(smoke_duration)
+        print(f"Set GOSMOKE for {smoke_duration} seconds")
+
+    # Light Toggle Actions: 1-4 times per hour
+    for _ in random_sleep(1, 4):
+        # Determine the duration lights will be off (between 5 and 15 seconds for instance)
+        light_off_duration = random.randint(5, 15)
+        run_bash_script("/path/to/light_off.bash")
+        print("Lights off. Sleeping for", light_off_duration, "seconds.")
+        time.sleep(light_off_duration)
+        run_bash_script("/path/to/light_on.bash")
+        print("Lights on.")
