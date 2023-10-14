@@ -9,7 +9,7 @@ from escpos.printer import Usb
 # You might find these using "lsusb" command in Linux
 p = Usb(0x04b8, 0x0202, 0)
 
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 
 # Get a random image from the 'ports' directory
 try:
