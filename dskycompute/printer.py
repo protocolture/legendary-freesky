@@ -1,5 +1,5 @@
-import osimport random
-
+import os
+import random
 from PIL import Image
 from escpos.printer import Usb
 
