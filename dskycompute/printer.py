@@ -1,4 +1,5 @@
-import os
+import osimport random
+
 from PIL import Image
 from escpos.printer import Usb
 
@@ -7,28 +8,39 @@ from escpos.printer import Usb
 # You might find these using "lsusb" command in Linux
 p = Usb(0x04b8, 0x0202, 0)
 
-# Open image, resize, and print it
-im = Image.open(os.path.join("ports", "port8.jpg"))
-original_width, original_height = im.size
+# Get a random image from the 'ports' directory
+try:
+    image_name = random.choice([f for f in os.listdir("ports") if f.endswith(".jpg")])
+    im = Image.open(os.path.join("ports", image_name))
+except IndexError:
+    print("No images found in 'ports' directory")
+    im = None  # No image to print
 
-# DPI of the printer
+# Get a random character file from the 'chars' directory
+try:
+    char_name = random.choice([f for f in os.listdir("chars") if f.endswith(".txt")])
+    with open(os.path.join("chars", char_name), 'r') as file:
+        char_details = file.read()
+except IndexError:
+    print("No text files found in 'chars' directory")
+    char_details = "No character details available."
+
+# DPI of the printer and new width in mm
 dpi = 203  # common for many receipt printers, but please check for yours
+new_width_mm = 40  
 
-# Set new width and calculate the new height maintaining the aspect ratio
-new_width_mm = 40  # Width in mm
-new_width_px = int((new_width_mm / 25.4) * dpi)  # Convert mm to inches, then multiply by DPI for px
-new_height_px = int((new_width_px/original_width) * original_height)
+if im:
+    # Resize image to 40mm width while maintaining aspect ratio
+    original_width, original_height = im.size
+    new_width_px = int((new_width_mm / 25.4) * dpi) 
+    new_height_px = int((new_width_px/original_width) * original_height)
+    resized_im = im.resize((new_width_px, new_height_px), Image.ANTIALIAS)
 
-# Resize and print the image
-resized_im = im.resize((new_width_px, new_height_px), Image.ANTIALIAS)
-p.image(resized_im)
-
-# Load and format character details
-with open(os.path.join("chars", "char1.txt"), 'r') as file:
-    char_details = file.read()
+    # Print the image
+    p.image(resized_im)
+    p.text("\n")
 
 # Print text
-p.text("\n")  # Add an empty line after the image
 p.text(char_details + "\n")
 
 # Cut the paper

@@ -1,0 +1,26 @@
+Name: Palladium 484
+Class: Android
+---------------
+Strength: 28
+Speed: 18
+Intellect: 22
+Combat: 28
+---------------
+Sanity: 20
+Fear: 85
+Body: 40
+Armor: 25
+---------------
+Skill Profile: Hacker
+Computers 5%. 
+Mathematics 5%.
+Linguistics 5% 
+Hacking 10%. 
+---------------
+Other Features
+When dealing with fear, panic, or insanity: Fear saves made in your presence have disadvantage.
+Bonus XP: Gain 1XP whenever you interface with a piece of alien technology or with a higher intelligence.
+Trinket: Manual: Moonshining With Gun Oil & Fuel
+Patch: Mr. Yuck
+Most recent nightmare:
+You are awash in a blissful sea of 1s and 0s, until the unthinkable happens... a 2. You awake in a state of panic.
