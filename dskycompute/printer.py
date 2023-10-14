@@ -7,42 +7,41 @@ from escpos.printer import Usb
 # You might find these using "lsusb" command in Linux
 p = Usb(0x04b8, 0x0202, 0)
 
-# Load and print the image
-image_path = "ports/port8.jpg"
-original_image = Image.open(image_path)
-target_width_mm = 40  # ~90% of 80mm
-target_width_px = int((target_width_mm / 25.4) * 203)  # 203dpi is a common print density for thermal printers
+# Open image, resize, and print it
+im = Image.open(os.path.join("ports", "port8.jpg"))
+width, height = im.size
+new_width = int(width * 0.9)
+new_height = int(height * (new_width / width))
+resized_im = im.resize((new_width, new_height), Image.ANTIALIAS)
+p.image(resized_im)
 
-# Resize image to fit width of paper
-w_percent = (target_width_px / float(original_image.size[0]))
-target_height_px = int((float(original_image.size[1]) * float(w_percent)))
-resized_image = original_image.resize((target_width_px, target_height_px), Image.ANTIALIAS)
-
-# Print image
-p.image(resized_image)
-
-# Load character details
-char_file_path = "chars/char1.txt"
-with open(char_file_path, "r") as file:
+# Load and format character details
+with open(os.path.join("chars", "char1.txt"), 'r') as file:
     char_details = file.read()
 
-# Format and print the text
+# Format and print text
+p.text("\n")  # Add an empty line after the image
 p.set(align="center")
-p.set_text_size(2, 2)  # double width and height
+p._raw(b'\x1b!\x30')  # Set to bold, double-height, and double-width
 p.text(char_details.split('\n')[0] + "\n")  # Print name
-p.set_text_size(1, 1)  # Reset to normal size for rest
 
+p._raw(b'\x1b!\x00')  # Reset to normal text size and weight
 p.set(align="left")
-for line in wrapped_text[1:]:
-    p.text(line + "\n") # Reset to normal size for rest
-wrapped_text = textwrap.wrap(char_details, width=32)  # Wrap text at approx 32 chars per line
-
-# Skip printing the name again
+wrapped_text = textwrap.wrap(char_details, width=40)  # Adjust width as per requirements
 for line in wrapped_text[1:]:
     p.text(line + "\n")
 
-# Ensure to cut the paper after printing
 p.cut()
+Explanation
+p._raw(b'\x1b!\x30'): Sends raw commands to adjust the text size and style. \x30 will typically set the text to be double-width, double-height, and bold in ESC/POS.
+p._raw(b'\x1b!\x00'): Resets the text to its normal size and style.
+Note
+The correct byte sequences can sometimes depend on the printer model. If the above does not work as expected, you might need to consult your printer's ESC/POS command guide.
 
-# Close the connection to the printer
-p.close()
+Test and Modify
+It’s crucial to test and adjust as per your requirements and hardware. If any character doesn’t render as expected, it’s worthwhile looking into the specific ESC/POS commands supported by your printer model. And always make sure to follow any guidelines provided in the official documentation or community resources for python-escpos.
+
+
+
+
+
