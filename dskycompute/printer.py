@@ -59,8 +59,8 @@ while True:
                     p.cut()
 
         # Sleep for a small duration
-        time.sleep(2)
+        #time.sleep(2)
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-        time.sleep(10)  # Sleep for longer on error to avoid rapid log spam
+        #time.sleep(10)  # Sleep for longer on error to avoid rapid log spam
