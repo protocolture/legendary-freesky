@@ -2,8 +2,10 @@ import os
 from PIL import Image
 from escpos.printer import Usb
 
-# Setup
-p = Usb(0x04b8, 0x0e15, 0)
+# Printer setup
+# Replace Vendor id and Product id with the values for your printer
+# You might find these using "lsusb" command in Linux
+p = Usb(0x04b8, 0x0202, 0)
 
 try:
     # Set text size
