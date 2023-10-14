@@ -21,7 +21,7 @@ try:
     
     # Assuming 80mm wide paper, with 203DPI typical on Epson printers
     # Resizing to 90% of paper width
-    target_width_mm = 72
+    target_width_mm = 40
     dpi = 203
     target_width_px = int((target_width_mm / 25.4) * dpi)
     
