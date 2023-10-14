@@ -11,12 +11,16 @@ p = Usb(0x04b8, 0x0202, 0)
 im = Image.open(os.path.join("ports", "port8.jpg"))
 original_width, original_height = im.size
 
+# DPI of the printer
+dpi = 203  # common for many receipt printers, but please check for yours
+
 # Set new width and calculate the new height maintaining the aspect ratio
-new_width = 40  # Width in pixels
-new_height = int((new_width/original_width) * original_height)
+new_width_mm = 40  # Width in mm
+new_width_px = int((new_width_mm / 25.4) * dpi)  # Convert mm to inches, then multiply by DPI for px
+new_height_px = int((new_width_px/original_width) * original_height)
 
 # Resize and print the image
-resized_im = im.resize((new_width, new_height), Image.ANTIALIAS)
+resized_im = im.resize((new_width_px, new_height_px), Image.ANTIALIAS)
 p.image(resized_im)
 
 # Load and format character details
