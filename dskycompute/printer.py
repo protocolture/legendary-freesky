@@ -11,54 +11,56 @@ p = Usb(0x04b8, 0x0202, 0)
 
 r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 
-# Get a random image from the 'ports' directory
-try:
-    image_name = random.choice([f for f in os.listdir("ports") if f.endswith(".jpg")])
-    im = Image.open(os.path.join("ports", image_name))
-except IndexError:
-    print("No images found in 'ports' directory")
-    im = None  # No image to print
+# Image directory
+image_dir = "ports"
+char_dir = "chars"
+note_dir = "notes"
 
-# DPI of the printer and new width in mm
-dpi = 203
-new_width_mm = 40
+while True:
+    try:
+        # Check for chars
+        for i in range(1, 11):
+            char_key = f'char{i}'
+            char_value = r.get(char_key)
 
-# Process and print char data if present and True/1 in Redis
-for i in range(1, 11):
-    char_key = f"char{i}"
-    should_print_char = r.get(char_key)
-    if should_print_char and int(should_print_char.decode("utf-8")) == 1:
-        try:
-            with open(os.path.join("chars", f"char{i}.txt"), 'r') as file:
-                char_details = file.read()
+            if char_value and char_value.decode('utf-8') == '1':
+                # Clear flag in Redis
+                r.set(char_key, '0')
                 
-                if im:
-                    original_width, original_height = im.size
-                    new_width_px = int((new_width_mm / 25.4) * dpi) 
-                    new_height_px = int((new_width_px/original_width) * original_height)
-                    resized_im = im.resize((new_width_px, new_height_px), Image.ANTIALIAS)
+                # Select random image
+                image_name = random.choice(os.listdir(image_dir))
+                image_path = os.path.join(image_dir, image_name)
 
-                    p.image(resized_im)
-                    p.text("\n")
-                
-                p.text(char_details + "\n")
-                
-        except FileNotFoundError:
-            print(f"No text file found for {char_key}")
+                # Load and print image
+                with Image.open(image_path) as img:
+                    p.image(img)
 
-# Process and print note data if present and True/1 in Redis
-for i in range(1, 11):
-    note_key = f"note{i}"
-    should_print_note = r.get(note_key)
-    if should_print_note and int(should_print_note.decode("utf-8")) == 1:
-        try:
-            with open(os.path.join("notes", f"note{i}.txt"), 'r') as file:
-                note_details = file.read()
-                
-                p.text(note_details + "\n")
-                
-        except FileNotFoundError:
-            print(f"No text file found for {note_key}")
+                # Print char details
+                char_path = os.path.join(char_dir, f"char{i}.txt")
+                with open(char_path, 'r') as f:
+                    char_text = f.read()
+                    p.text(char_text)
+		    p.cut()
 
-# Cut the paper
-p.cut()
+        # Check for notes
+        for i in range(1, 11):
+            note_key = f'note{i}'
+            note_value = r.get(note_key)
+            
+            if note_value and note_value.decode('utf-8') == '1':
+                # Clear flag in Redis
+                r.set(note_key, '0')
+                
+                # Print note details
+                note_path = os.path.join(note_dir, f"note{i}.txt")
+                with open(note_path, 'r') as f:
+                    note_text = f.read()
+                    p.text(note_text)
+		    p.cut()
+
+        # Sleep for a small duration
+        time.sleep(2)
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        time.sleep(10)  # Sleep for longer on error to avoid rapid log spam
