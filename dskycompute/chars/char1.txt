@@ -1,0 +1,13 @@
+Name: Minal Venugopal
+Strength: 40
+Speed: 27
+Intellect: 32
+Combat: 32
+Class: Teamster
+Saves: Sanity 30, Fear 35, Body 30, Armor 35
+When dealing with fear, panic, or insanity: Once per session, you may reroll a roll on the panic table.
+Skill profile: Junker: (Zero-G, Mechanical Repair, Heavy Machinery, Scavenging, Jury-Rigging, 1 SP banked)
+Bonus XP: Gain 1XP whenever you first set foot on an undiscovered planet.
+Gear: Excavation loadout: crowbar, hand welder, laser cutter, body cam, bioscanner, infrared goggles, lockpick set, vacsuit (oxygen tank, mag-boots, short-range comms).
+Trinket: Wanted Poster, Weathered
+Patch: "APEX PREDATOR" (Sabertooth Skull)
