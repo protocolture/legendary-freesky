@@ -40,7 +40,7 @@ while True:
                 with open(char_path, 'r') as f:
                     char_text = f.read()
                     p.text(char_text)
-		    p.cut()
+                    p.cut()
 
         # Check for notes
         for i in range(1, 11):
@@ -56,7 +56,7 @@ while True:
                 with open(note_path, 'r') as f:
                     note_text = f.read()
                     p.text(note_text)
-		    p.cut()
+                    p.cut()
 
         # Sleep for a small duration
         time.sleep(2)
