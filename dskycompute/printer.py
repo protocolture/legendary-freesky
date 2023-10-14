@@ -9,9 +9,13 @@ p = Usb(0x04b8, 0x0202, 0)
 
 # Open image, resize, and print it
 im = Image.open(os.path.join("ports", "port8.jpg"))
-width, height = im.size
-new_width = int(width * 0.9)
-new_height = int(height * (new_width / width))
+original_width, original_height = im.size
+
+# Set new width and calculate the new height maintaining the aspect ratio
+new_width = 40  # Width in pixels
+new_height = int((new_width/original_width) * original_height)
+
+# Resize and print the image
 resized_im = im.resize((new_width, new_height), Image.ANTIALIAS)
 p.image(resized_im)
 
@@ -25,7 +29,3 @@ p.text(char_details + "\n")
 
 # Cut the paper
 p.cut()
-
-
-
-
