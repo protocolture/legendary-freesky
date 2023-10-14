@@ -33,8 +33,11 @@ while True:
 
                 # Load and print image
                 with Image.open(image_path) as img:
-                    p.image(img)
-
+                base_width = 150  # Approximately 40mm at 96 dpi (adjust as per your printer dpi)
+                w_percent = base_width / float(img.size[0])
+                h_size = int((float(img.size[1]) * float(w_percent)))
+                img = img.resize((base_width, h_size), Image.ANTIALIAS)
+                img.show()  # For testing, remove in production
                 # Print char details
                 char_path = os.path.join(char_dir, f"char{i}.txt")
                 with open(char_path, 'r') as f:
