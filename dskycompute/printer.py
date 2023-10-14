@@ -16,6 +16,12 @@ image_dir = "ports"
 char_dir = "chars"
 note_dir = "notes"
 
+# DPI of the printer and new width in mm
+dpi = 203
+new_width_mm = 40
+
+new_width_px = int((new_width_mm * dpi) / 25.4)
+
 while True:
     try:
         # Check for chars
@@ -33,11 +39,14 @@ while True:
 
                 # Load and print image
                 with Image.open(image_path) as img:
-                	base_width = 150  # Approximately 40mm at 96 dpi (adjust as per your printer dpi)
-                	w_percent = base_width / float(img.size[0])
+                	w_percent = new_width_px / float(img.size[0])
                 	h_size = int((float(img.size[1]) * float(w_percent)))
-                	img = img.resize((base_width, h_size), Image.ANTIALIAS)
+                
+                	# Resize and print the image
+                	img = img.resize((new_width_px, h_size), Image.ANTIALIAS)
                 	img.show()  # For testing, remove in production
+                
+                	p.image(img)
 
                 # Print char details
                 char_path = os.path.join(char_dir, f"char{i}.txt")
