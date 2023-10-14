@@ -47,7 +47,7 @@ while True:
                 	img.show()  # For testing, remove in production
                 
                 	p.image(img)
-			p.text("\n\n")
+                	p.text("\n\n")
 
                 # Print char details
                 char_path = os.path.join(char_dir, f"char{i}.txt")
