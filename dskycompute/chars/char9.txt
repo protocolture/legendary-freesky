@@ -1,5 +1,6 @@
 Name: Marcia Harlan
 Class: Marine
+Sponsor: Suzhou-Synta
 ---------------
 Strength: 26
 Speed: 13

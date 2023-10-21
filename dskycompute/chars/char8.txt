@@ -1,5 +1,6 @@
 Name: Selden West
 Class: Scientist
+Sponsor: Genom Corporation
 ---------------
 Strength: 12
 Speed: 23

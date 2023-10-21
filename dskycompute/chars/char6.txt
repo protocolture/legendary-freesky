@@ -1,5 +1,6 @@
 Name: Roy Carver
 Class: Teamster
+Sponsor: Aesir Corporation
 ---------------
 Strength: 33
 Speed: 13

@@ -1,5 +1,6 @@
 Name: Med Kimata
 Class: Teamster
+Sponsor: Genom Corporation
 ---------------
 Strength: 23
 Speed: 32

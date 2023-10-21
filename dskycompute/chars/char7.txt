@@ -1,5 +1,6 @@
 Name: Bernth Castro
 Class: Teamster
+Corp Sponsor: Omni Consumer Products
 ---------------
 Strength: 43
 Speed: 33

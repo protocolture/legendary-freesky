@@ -1,5 +1,6 @@
 Name: Gambio Bergdorf
 Class: Marine
+Sponsor: Aesir Corporation
 ---------------
 Strength: 28
 Speed: 33

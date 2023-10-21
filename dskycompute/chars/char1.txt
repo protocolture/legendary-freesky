@@ -1,5 +1,6 @@
 Name: Yousef Diament
 Class: Marine
+Corp Sponsor: Omni Consumer Products
 ---------------
 Strength: 26
 Speed: 26
