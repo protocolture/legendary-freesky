@@ -1,192 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NES Styled Choices</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/nes.css@2.2.0/css/nes.min.css" rel="stylesheet">
+    <title>Mission Selector</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-        body {
-            background-color: black;
-            font-family: 'Press Start 2P', cursive;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px;
-        }
-
-        .box {
-            border: 4px solid #8aff80; /* Green */
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .square {
-            flex: 1;
-            max-width: 50%;
-            border: 4px solid #8aff80; /* Green */
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .square.selected {
-            background-color: #8aff80; /* Green */
-        }
-
-        .square img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .square h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .selected-option {
-            background-color: #8aff80; /* Green */
-            padding: 10px;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .mission-info {
-            background-color: #8aff80; /* Green */
-            padding: 10px;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .recruitable-team {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #8aff80; /* Green */
-            padding: 10px;
-            text-align: center;
-            font-size: 24px;
-            color: black;
-        }
-
-        .recorded-choices {
-            flex: 0.5;
-        }
-
-        .choice, .characters {
-            display: none;
-        }
-    </style>
+    <script src="script.js" defer></script>
 </head>
+<div id="missionText" class="box">
+    <h2>Mission Briefing</h2>
+    <video width="1024" height="768" autoplay loop muted>
+        <source src="map.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button id="acceptMission">Accept Mission</button>
+</div>
 
-<body>
-    <div class="container">
-        <div class="choice-container box">
-            <div class="mission-info" id="intro">
-                <p>Lots of mission details...</p>
-                <button class="nes-btn" id="acceptMission">Accept Mission</button>
-            </div>
 
-            <!-- First Choice -->
-            <div class="choice" id="choice1">
-                <div class="square" data-choice="Military Assault">
-                    <h2>Military Assault</h2>
-                </div>
-                <div class="square" data-choice="Civilian Recovery">
-                    <h2>Civilian Recovery</h2>
-                </div>
-            </div>
 
-            <!-- Second Choice -->
-            <div class="choice" id="choice2">
-                <div class="square" data-choice="Extra Armor">
-                    <h2>Extra Armor</h2>
-                </div>
-                <div class="square" data-choice="Auto Medkit">
-                    <h2>Auto Medkit</h2>
-                </div>
-            </div>
-
-            <!-- Third Choice -->
-            <div class="choice" id="choice3">
-                <div class="square" data-choice="Auto Rifle">
-                    <h2>Auto Rifle</h2>
-                </div>
-                <div class="square" data-choice="High Explosive Charge">
-                    <h2>High Explosive Charge</h2>
-                </div>
-            </div>
-
-            <!-- Fourth Choice -->
-            <div class="choice" id="choice4">
-                <div class="square" data-choice="Scientific Mandate">
-                    <h2>Scientific Mandate</h2>
-                </div>
-                <div class="square" data-choice="Mechanical Assistance">
-                    <h2>Mechanical Assistance</h2>
-                </div>
-            </div>
-
-            <div class="characters" id="characters">
-                <!-- Character Box Sample -->
-                <div class="square" data-character="char1">
-                    <img src="path_to_character_image.jpg" alt="Character 1 Image">
-                    <h2>Character 1</h2>
-                    <p>Class: Sniper</p>
-                    <p>Specialty: Long Range Combat</p>
-                </div>
-                <!-- ... other character boxes ... -->
-            </div>
+    <div id="selection1" class="container hidden">
+        <div class="square" data-choice="Military Assault">
+            <h2>Military Assault</h2>
         </div>
-
-        <div class="recorded-choices box">
-            <!-- Results get added here -->
+        <div class="square" data-choice="Civilian Recovery">
+            <h2>Civilian Recovery</h2>
         </div>
     </div>
 
-    <script>
-        $("#acceptMission").click(function() {
-            $(this).parent().fadeOut(function() {
-                $("#choice1").fadeIn();
-                $(".recorded-choices").fadeIn();
-            });
-        });
+    <div id="selection2" class="container hidden">
+        <div class="square" data-choice="Extra Armor">
+            <h2>Extra Armor</h2>
+        </div>
+        <div class="square" data-choice="Auto Medkit">
+            <h2>Auto Medkit</h2>
+        </div>
+    </div>
 
-        $(".choice .square").click(function() {
-            let choice = $(this).data("choice");
-            $(".recorded-choices").append(`<div class="selected-option">${choice}</div>`);
-            let parentChoice = $(this).parent();
-            parentChoice.fadeOut(function() {
-                if (parentChoice.next(".choice").length) {
-                    parentChoice.next(".choice").fadeIn();
-                } else {
-                    $("#characters").fadeIn();
-                }
-            });
-        });
+    <div id="selection3" class="container hidden">
+        <div class="square" data-choice="Auto Rifle">
+            <h2>Auto Rifle</h2>
+        </div>
+        <div class="square" data-choice="High Explosive Charge">
+            <h2>High Explosive Charge</h2>
+        </div>
+    </div>
 
-        $(".characters .square").click(function() {
-            let character = $(this).data("character");
-            // Send Webdis command
-            $.get(`http://192.168.20.71/${character}`);
-        });
-    </script>
+    <div id="selection4" class="container hidden">
+        <div class="square" data-choice="Scientific Mandate">
+            <h2>Scientific Mandate</h2>
+        </div>
+        <div class="square" data-choice="Mechanical Assistance">
+            <h2>Mechanical Assistance</h2>
+        </div>
+    </div>
+
+    <div id="teamSelection" class="container hidden">
+        <!-- Example of 10 repeated characters -->
+        <div class="char">
+            <img src="path_to_image" alt="Char 1">
+            <h2>Char 1</h2>
+            <p>Class: Soldier</p>
+            <p>Specialty: Sniper</p>
+        </div>
+        <!-- Repeat the above block for 10 characters, changing data as required -->
+
+    </div>
+
+    <div class="selected-option hidden">
+        <h2>Selected Options:</h2>
+        <p id="option1"></p>
+        <p id="option2"></p>
+        <p id="option3"></p>
+        <p id="option4"></p>
+    </div>
 </body>
-
 </html>
