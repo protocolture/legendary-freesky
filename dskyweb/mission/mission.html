@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NES Styled Choices</title>
+    <link href="https://cdn.jsdelivr.net/npm/nes.css@2.2.0/css/nes.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .choice, .characters {
+            display: none;
+        }
+
+        .recorded-choices {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nes-container is-rounded">
+        <p>Lots of mission details...</p>
+        <button class="nes-btn" id="acceptMission">Accept Mission</button>
+    </div>
+
+    <div class="choice nes-container with-title is-centered" id="choice1">
+        <p class="title">Select Your Approach</p>
+        <button class="nes-btn" data-choice="Military Assault">Military Assault</button>
+        <button class="nes-btn" data-choice="Civilian Recovery">Civilian Recovery</button>
+    </div>
+
+    <div class="choice nes-container with-title is-centered" id="choice2">
+        <p class="title">Choose Your Equipment</p>
+        <button class="nes-btn" data-choice="Extra Armor">Extra Armor</button>
+        <button class="nes-btn" data-choice="Auto Medkit">Auto Medkit</button>
+    </div>
+
+    <div class="choice nes-container with-title is-centered" id="choice3">
+        <p class="title">Select Your Weapon</p>
+        <button class="nes-btn" data-choice="Auto Rifle">Auto Rifle</button>
+        <button class="nes-btn" data-choice="High Explosive Charge">High Explosive Charge</button>
+    </div>
+
+    <div class="choice nes-container with-title is-centered" id="choice4">
+        <p class="title">Select Your Assistance</p>
+        <button class="nes-btn" data-choice="Scientific Mandate">Scientific Mandate</button>
+        <button class="nes-btn" data-choice="Mechanical Assistance">Mechanical Assistance</button>
+    </div>
+
+    <div class="characters nes-container with-title is-centered" id="characters">
+        <p class="title">Select Your Character</p>
+        <!-- Add buttons for 10 characters -->
+        <button class="nes-btn" data-character="char1">Character 1</button>
+        <!-- ... -->
+        <button class="nes-btn" data-character="char10">Character 10</button>
+    </div>
+
+    <div class="recorded-choices nes-container">
+        <!-- Results get added here -->
+    </div>
+
+    <script>
+        $("#acceptMission").click(function() {
+            $(this).parent().fadeOut(function() {
+                $("#choice1").fadeIn();
+            });
+        });
+
+        $(".choice .nes-btn").click(function() {
+            let choice = $(this).data("choice");
+            $(".recorded-choices").append(`<p>${choice}</p>`);
+            let parentChoice = $(this).parent();
+            parentChoice.fadeOut(function() {
+                if (parentChoice.next(".choice").length) {
+                    parentChoice.next(".choice").fadeIn();
+                } else {
+                    $("#characters").fadeIn();
+                }
+            });
+        });
+
+        $(".characters .nes-btn").click(function() {
+            let character = $(this).data("character");
+            // Send Webdis command
+            $.get(`http://192.168.20.71/${character}`);
+        });
+    </script>
+</body>
+
+</html>
