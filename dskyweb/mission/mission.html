@@ -5,86 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NES Styled Choices</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/nes.css@2.2.0/css/nes.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
-        .content-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body {
+            background-color: black;
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
         }
 
-		.choice-container {
-			flex: 1;
-			margin-right: 2rem;
-		}
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
 
-		.choice, .characters {
-			display: none;
-		}
+        .box {
+            border: 4px solid #8aff80; /* Green */
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .square {
+            flex: 1;
+            max-width: 50%;
+            border: 4px solid #8aff80; /* Green */
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .square.selected {
+            background-color: #8aff80; /* Green */
+        }
+
+        .square img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .square h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .selected-option {
+            background-color: #8aff80; /* Green */
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .mission-info {
+            background-color: #8aff80; /* Green */
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .recruitable-team {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #8aff80; /* Green */
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            color: black;
+        }
 
         .recorded-choices {
-            flex: 1;
+            flex: 0.5;
+        }
+
+        .choice, .characters {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <div class="content-wrapper">
-        <div class="choice-container">
-            <div class="nes-container is-rounded">
+    <div class="container">
+        <div class="choice-container box">
+            <div class="mission-info" id="intro">
                 <p>Lots of mission details...</p>
                 <button class="nes-btn" id="acceptMission">Accept Mission</button>
             </div>
 
-            <div class="choice nes-container with-title is-centered" id="choice1">
-                <p class="title">Select Your Approach</p>
-                <button class="nes-btn" data-choice="Military Assault">Military Assault</button>
-                <button class="nes-btn" data-choice="Civilian Recovery">Civilian Recovery</button>
+            <!-- First Choice -->
+            <div class="choice" id="choice1">
+                <div class="square" data-choice="Military Assault">
+                    <h2>Military Assault</h2>
+                </div>
+                <div class="square" data-choice="Civilian Recovery">
+                    <h2>Civilian Recovery</h2>
+                </div>
             </div>
 
-            <div class="choice nes-container with-title is-centered" id="choice2">
-                <p class="title">Choose Your Equipment</p>
-                <button class="nes-btn" data-choice="Extra Armor">Extra Armor</button>
-                <button class="nes-btn" data-choice="Auto Medkit">Auto Medkit</button>
+            <!-- Second Choice -->
+            <div class="choice" id="choice2">
+                <div class="square" data-choice="Extra Armor">
+                    <h2>Extra Armor</h2>
+                </div>
+                <div class="square" data-choice="Auto Medkit">
+                    <h2>Auto Medkit</h2>
+                </div>
             </div>
 
-            <div class="choice nes-container with-title is-centered" id="choice3">
-                <p class="title">Select Your Weapon</p>
-                <button class="nes-btn" data-choice="Auto Rifle">Auto Rifle</button>
-                <button class="nes-btn" data-choice="High Explosive Charge">High Explosive Charge</button>
+            <!-- Third Choice -->
+            <div class="choice" id="choice3">
+                <div class="square" data-choice="Auto Rifle">
+                    <h2>Auto Rifle</h2>
+                </div>
+                <div class="square" data-choice="High Explosive Charge">
+                    <h2>High Explosive Charge</h2>
+                </div>
             </div>
 
-            <div class="choice nes-container with-title is-centered" id="choice4">
-                <p class="title">Select Your Assistance</p>
-                <button class="nes-btn" data-choice="Scientific Mandate">Scientific Mandate</button>
-                <button class="nes-btn" data-choice="Mechanical Assistance">Mechanical Assistance</button>
+            <!-- Fourth Choice -->
+            <div class="choice" id="choice4">
+                <div class="square" data-choice="Scientific Mandate">
+                    <h2>Scientific Mandate</h2>
+                </div>
+                <div class="square" data-choice="Mechanical Assistance">
+                    <h2>Mechanical Assistance</h2>
+                </div>
             </div>
 
-            <div class="characters nes-container with-title is-centered" id="characters">
-                <p class="title">Select Your Character</p>
-                <button class="nes-btn" data-character="char1">Character 1</button>
-                <!-- ... other character buttons ... -->
-                <button class="nes-btn" data-character="char10">Character 10</button>
+            <div class="characters" id="characters">
+                <!-- Character Box Sample -->
+                <div class="square" data-character="char1">
+                    <img src="path_to_character_image.jpg" alt="Character 1 Image">
+                    <h2>Character 1</h2>
+                    <p>Class: Sniper</p>
+                    <p>Specialty: Long Range Combat</p>
+                </div>
+                <!-- ... other character boxes ... -->
             </div>
         </div>
 
-        <div class="recorded-choices nes-container">
+        <div class="recorded-choices box">
             <!-- Results get added here -->
         </div>
     </div>
 
     <script>
         $("#acceptMission").click(function() {
-    $(this).parent().fadeOut(function() {
-        $("#choice1").fadeIn();
-        $(".recorded-choices").fadeIn();
-    });
-});
+            $(this).parent().fadeOut(function() {
+                $("#choice1").fadeIn();
+                $(".recorded-choices").fadeIn();
+            });
+        });
 
-        $(".choice .nes-btn").click(function() {
+        $(".choice .square").click(function() {
             let choice = $(this).data("choice");
-            $(".recorded-choices").append(`<p>${choice}</p>`);
+            $(".recorded-choices").append(`<div class="selected-option">${choice}</div>`);
             let parentChoice = $(this).parent();
             parentChoice.fadeOut(function() {
                 if (parentChoice.next(".choice").length) {
@@ -95,7 +181,7 @@
             });
         });
 
-        $(".characters .nes-btn").click(function() {
+        $(".characters .square").click(function() {
             let character = $(this).data("character");
             // Send Webdis command
             $.get(`http://192.168.20.71/${character}`);
