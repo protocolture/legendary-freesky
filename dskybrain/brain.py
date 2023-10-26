@@ -36,7 +36,7 @@ while True:
         # Check each key in the list
         key_value = redis_client.get(key)
         
-         if key_value == '1':
+        if key_value == '1':
             print(f"Launching {key}.py")
             
             # Launch the script with the same name as this script
