@@ -1,30 +1,32 @@
-import subprocess
-import time
+import asyncio
+from kasa import SmartStrip
 
-def run_kasa_command(host, action, index, device_type="strip"):
-    cmd = ["kasa", "--type", device_type, "--host", host, action, "--index", str(index)]
-    subprocess.run(cmd)
+async def kasa_control():
+    # Initialize the SmartStrip at IP 192.168.20.148
+    strip1 = SmartStrip("192.168.20.148")
+    await strip1.update()
 
-def main():
-    # Turn on index 1 of 192.168.20.148
-    run_kasa_command("192.168.20.148", "on", 1)
-    time.sleep(2)
-    
-    # Run the remaining commands without delay
-    commands = [
-        ("192.168.20.148", "on", 0),
-        ("192.168.20.63", "on", 0),
-        ("192.168.20.64", "on", 0),
-        ("192.168.20.64", "on", 1),
-        ("192.168.20.64", "on", 2),
-    ]
-    for host, action, index in commands:
-        run_kasa_command(host, action, index)
-    
-    time.sleep(2)
-    
-    # Turn off index 1 of 192.168.20.148
-    run_kasa_command("192.168.20.148", "off", 1)
+    # Turn on plug at index 1
+    await strip1.children[1].turn_on()
+    await asyncio.sleep(2)
 
-if __name__ == "__main__":
-    main()
+    # Turn on other plugs
+    await strip1.children[0].turn_on()
+    
+    strip2 = SmartStrip("192.168.20.63")
+    await strip2.update()
+    await strip2.children[0].turn_on()
+
+    strip3 = SmartStrip("192.168.20.64")
+    await strip3.update()
+    await strip3.children[0].turn_on()
+    await strip3.children[1].turn_on()
+    await strip3.children[2].turn_on()
+    
+    await asyncio.sleep(2)
+
+    # Turn off plug at index 1 of 192.168.20.148
+    await strip1.children[1].turn_off()
+
+# Run the asynchronous function
+asyncio.run(kasa_control())
