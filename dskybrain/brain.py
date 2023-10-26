@@ -40,7 +40,7 @@ while True:
             print(f"Launching {key}.py")
             
             # Launch the script with the same name as this script
-            ubprocess.Popen(['python', os.path.join(script_directory, f"{key}.py")])
+            subprocess.Popen(['python', os.path.join(script_directory, f"{key}.py")])
     
     # Sleep for a while before checking again
     # Adjust the sleep duration as needed
