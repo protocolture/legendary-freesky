@@ -16,8 +16,8 @@ def main():
     r.set('SCSeconds', '8')
     subprocess.run(["kasa", " --type strip --host 192.168.20.148 on --index 1"])
 
-    bash_script_path = 'SCRAM.sh'  # Replace with the actual path to your Bash script
-    subprocess.Popen(['bash', bash_script_path])
+    #bash_script_path = 'SCRAM.sh'  # Replace with the actual path to your Bash script
+    #subprocess.Popen(['bash', bash_script_path])
 
 if __name__ == '__main__': 
     main()
