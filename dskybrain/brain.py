@@ -36,11 +36,11 @@ while True:
         # Check each key in the list
         key_value = redis_client.get(key)
         
-        if key_value == '1':
-            print(f"Launching {script_name}")
+         if key_value == '1':
+            print(f"Launching {key}.py")
             
             # Launch the script with the same name as this script
-            subprocess.Popen(['python', os.path.join(script_directory, script_name)])
+            ubprocess.Popen(['python', os.path.join(script_directory, f"{key}.py")])
     
     # Sleep for a while before checking again
     # Adjust the sleep duration as needed
