@@ -16,12 +16,14 @@ def main():
     print("Short for 8")
     r.set('SC1', '8')
     r.set('SCSeconds', '8')
+    r.set('POWERUP', '0')
     #subprocess.run(["kasa", " --type strip --host 192.168.20.148 on --index 1"])
 
     bash_script_path = 'POWERUP.sh'  # Replace with the actual path to your Bash script
     subprocess.Popen(['bash', bash_script_path])
-   # os.system('sh POWERUP.sh')
+
     
+    print("End of POWERUP.py")
 
 if __name__ == '__main__': 
     main()
