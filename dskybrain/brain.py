@@ -33,6 +33,7 @@ while True:
     check_and_set_values()
     
     for key in keys_to_check:
+        print("{key}, {key_value}")
         # Check each key in the list
         key_value = redis_client.get(key)
         
