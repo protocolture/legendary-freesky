@@ -4,6 +4,7 @@
 
 import redis
 import subprocess
+import os
 
 
 def main():
@@ -17,7 +18,9 @@ def main():
     r.set('SCSeconds', '8')
 
     bash_script_path = 'POWERUP.sh'  # Replace with the actual path to your Bash script
-    subprocess.Popen(['bash', bash_script_path])
+   # subprocess.Popen(['bash', bash_script_path])
+    os.system('sh POWERUP.sh')
+    
 
 if __name__ == '__main__': 
     main()
