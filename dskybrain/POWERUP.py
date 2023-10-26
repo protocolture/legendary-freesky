@@ -10,6 +10,7 @@ def main():
     # Connect to Redis
     r = redis.Redis(host='192.168.20.71', port=6379, db=0)
     print("SMOKE for 8")
+    r.set('GOSMOKE', '1')
     r.set('Smokeseconds', '8')
     print("Short for 8")
     r.set('SC1', '8')

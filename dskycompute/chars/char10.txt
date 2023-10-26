@@ -1,6 +1,5 @@
 Name: Scott Farmer
 Class: Scientist
-Sponsor: Mars Robotronics Corporation
 ---------------
 Strength: 8
 Speed: 29
