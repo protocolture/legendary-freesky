@@ -14,9 +14,7 @@ def main():
     print("Short for 8")
     r.set('SC1', '8')
     r.set('SCSeconds', '8')
-    subprocess.run(["kasa", "--type", "strip", "--host", "192.168.20.148", "on", "--index", "1"])
-
-
+    subprocess.run(["/home/matt/.local/bin/kasa", "--type", "strip", "--host", "192.168.20.148", "on", "--index", "1"])
     #bash_script_path = 'SCRAM.sh'  # Replace with the actual path to your Bash script
     #subprocess.Popen(['bash', bash_script_path])
 
