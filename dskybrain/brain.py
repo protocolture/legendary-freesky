@@ -16,6 +16,7 @@ mixer.init()
 
 def play_sound(filename):
     mixer.music.load(filename)
+    mixer.set_volume(1.0)
     mixer.music.play()
     while mixer.music.get_busy():
         time.sleep(0.1)
