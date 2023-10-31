@@ -14,9 +14,9 @@ redis_client = redis.StrictRedis(host=redis_host, port=redis_port, decode_respon
 # Initialize pygame mixer
 mixer.init()
 
-def play_sound(filename):
+def play_sound(filename, volume=1.0):  # volume can range from 0.0 to 1.0
     mixer.music.load(filename)
-    mixer.set_volume(1.0)
+    mixer.music.set_volume(volume)  # set the volume
     mixer.music.play()
     while mixer.music.get_busy():
         time.sleep(0.1)
