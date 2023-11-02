@@ -16,6 +16,7 @@ mixer.init()
 
 def play_sound(filename, volume=1.0):  # volume can range from 0.0 to 1.0
     mixer.music.load(filename)
+    print("Playing Sound")
     mixer.music.set_volume(volume)  # set the volume
     mixer.music.play()
     while mixer.music.get_busy():
