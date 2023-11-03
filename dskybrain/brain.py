@@ -1,5 +1,3 @@
-import os
-os.environ['SDL_AUDIODRIVER'] = 'dsp'
 
 import redis
 import time
