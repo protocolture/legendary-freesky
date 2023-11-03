@@ -47,8 +47,8 @@ while True:
     yellow = redis_client.get("YELLOW")
     
     if redis_client.get("RANT") == '1':
-    play_random_rant()
-    redis_client.set("RANT", 0)
+        play_random_rant()
+        redis_client.set("RANT", 0)
 
     if red == '1' and blue == '1' and yellow == '1':
         redis_client.set("GOSMOKE", 1)
