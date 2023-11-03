@@ -20,6 +20,7 @@ mixer.init()
 
 # Initialize a set to keep track of played rants
 played_rants = set()
+played_wanks = set()
 
 def play_sound(filename, volume=1.0):  # volume can range from 0.0 to 1.0
     mixer.music.load(filename)
@@ -29,16 +30,15 @@ def play_sound(filename, volume=1.0):  # volume can range from 0.0 to 1.0
     while mixer.music.get_busy():
         time.sleep(0.1)
         
-def play_random_rant():
-    global played_rants
-    available_rants = set(f"rant{i}" for i in range(1, 13)) - played_rants
-    if available_rants:
-        rant_to_play = random.choice(list(available_rants))
-        play_sound(os.path.join("noise", f"{rant_to_play}.mp3"))
-        played_rants.add(rant_to_play)
-        print(f"Played: {rant_to_play}")
+def play_random_file(file_type, count, played_set):
+    available_files = set(f"{file_type}{i}" for i in range(1, count + 1)) - played_set
+    if available_files:
+        file_to_play = random.choice(list(available_files))
+        play_sound(os.path.join("noise", f"{file_to_play}.mp3"))
+        played_set.add(file_to_play)
+        print(f"Played: {file_to_play}")
     else:
-        print("All rants have been played.")
+        print(f"All {file_type} files have been played.")
 
 
 
@@ -49,8 +49,12 @@ while True:
     yellow = redis_client.get("YELLOW")
     
     if redis_client.get("RANT") == '1':
-        play_random_rant()
+        play_random_file("rant", 12, played_rants)
         redis_client.set("RANT", 0)
+
+    if redis_client.get("WANK") == '1':
+        play_random_file("wank", 14, played_wanks)
+        redis_client.set("WANK", 0)
 
     if red == '1' and blue == '1' and yellow == '1':
         redis_client.set("GOSMOKE", 1)
