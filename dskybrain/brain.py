@@ -1,7 +1,9 @@
+import os
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
+
 import redis
 import time
 import subprocess
-import os
 import pygame
 from pygame import mixer
 
