@@ -2,6 +2,7 @@ import redis
 import time
 import subprocess
 import os
+import pygame
 from pygame import mixer
 
 # Configuration for Redis
