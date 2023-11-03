@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import redis
+import time
 
 def main():
-    print("This is the stub script for code 9c.")
+    print("This is the stub script for code 97.")
     # Connect to Redis
     r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 
