@@ -35,12 +35,14 @@ def set_random_rant_or_wank():
 while True:
     # GOSMOKE Actions: 5-20 times per hour, duration 3-10 seconds
     for _ in random_sleep(5, 20):
+        set_random_rant_or_wank()
         smoke_duration = random.randint(3, 10)
         set_gosmoke(smoke_duration)
         print(f"Set GOSMOKE for {smoke_duration} seconds")
 
     # Light Toggle Actions: 1-4 times per hour
     for _ in random_sleep(1, 4):
+        set_random_rant_or_wank()
         # Determine the duration lights will be off (between 5 and 15 seconds for instance)
         light_off_duration = random.randint(5, 15)
         run_bash_script("./light_off.bash")
@@ -49,9 +51,3 @@ while True:
         run_bash_script("./light_on.bash")
         print("Lights on.")
         
-    # Random RANT or WANK setting: once every 10 minutes
-    if int(time.time()) % 600 < 1:
-        set_random_rant_or_wank()
-
-    # Sleep for a second to prevent the loop from running too quickly
-    time.sleep(1)
