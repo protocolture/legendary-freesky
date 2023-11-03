@@ -4,6 +4,8 @@ import time
 import subprocess
 import pygame
 from pygame import mixer
+import random
+import os
 
 # Configuration for Redis
 redis_host = '192.168.20.71'
