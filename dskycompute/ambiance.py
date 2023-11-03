@@ -23,6 +23,13 @@ def set_gosmoke(duration):
     # Set GOSMOKE to True (1) and Smokeseconds to desired value (e.g., 5 seconds)
     r.set('GOSMOKE', '1')
     r.set('Smokeseconds', str(duration))
+    
+def set_random_rant_or_wank():
+    key = random.choice(['RANT', 'WANK'])
+    redis_client.set(key, '1')
+    print(f"Set {key} to 1")
+    time.sleep(60)
+    
 
 # Main Loop
 while True:
@@ -41,3 +48,10 @@ while True:
         time.sleep(light_off_duration)
         run_bash_script("./light_on.bash")
         print("Lights on.")
+        
+    # Random RANT or WANK setting: once every 10 minutes
+    if int(time.time()) % 600 < 1:
+        set_random_rant_or_wank()
+
+    # Sleep for a second to prevent the loop from running too quickly
+    time.sleep(1)
