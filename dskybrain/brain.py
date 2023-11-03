@@ -76,7 +76,7 @@ while True:
         redis_client.set("SCRAM", 0)
 
     # Check for journal and alarm keys
-    for i in range(1, 11):  # For journal1 to journal10
+    for i in range(1, 16):  # For journal1 to journal10
         journal_key = f"journal{i}"
         if redis_client.get(journal_key) == '1':
             play_sound(f"noise/journal{i}.mp3")
