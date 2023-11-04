@@ -83,7 +83,7 @@ while True:
                 r.set(sm_key, '0')
                 
                 # Print note details
-                note_path = os.path.join(sm_dir, f"sm{i}.txt")
+                sm_path = os.path.join(sm_dir, f"sm{i}.txt")
                 with open(sm_path, 'r') as f:
                     sm_text = f.read()
                     p.text(sm_text)
