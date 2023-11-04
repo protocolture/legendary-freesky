@@ -8,7 +8,7 @@ redis_password = ''  # If your Redis server requires a password, set it here.
 # Known keys - add all keys that you want to track
 known_keys = [
     'RED', 'BLUE', 'YELLOW', 'GOSMOKE', 'smokeseconds',
-    'POWERUP', 'SCRAM', 'alarm', 'RANT', 'WANK',
+    'POWERUP', 'SCRAM', 'alarm', 'RANT', 'WANK', 'SC1' , 'scseconds' ,
     # Add any other keys you want to track here
 ]
 
