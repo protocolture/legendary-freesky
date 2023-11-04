@@ -51,7 +51,11 @@ while True:
     if redis_client.get("RANT") == '1':
         play_random_file("rant", 12, played_rants)
         redis_client.set("RANT", 0)
-
+        
+    if redis_client.get("blah") == '1':
+        play_sound("noise/twilightyzone.mp3")
+        redis_client.set("blah", 0)
+        
     if redis_client.get("WANK") == '1':
         play_random_file("wank", 14, played_wanks)
         redis_client.set("WANK", 0)
