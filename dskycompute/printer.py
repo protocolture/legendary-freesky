@@ -15,6 +15,7 @@ r = redis.Redis(host='192.168.20.71', port=6379, db=0)
 image_dir = "ports"
 char_dir = "chars"
 note_dir = "notes"
+sm_dir = "SM"
 
 # DPI of the printer and new width in mm
 dpi = 203
@@ -70,6 +71,22 @@ while True:
                 with open(note_path, 'r') as f:
                     note_text = f.read()
                     p.text(note_text)
+                    p.cut()
+                    
+        # Check for notes
+        for i in range(1, 11):
+            sm_key = f'sm{i}'
+            sm_value = r.get(sm_key)
+            
+            if sm_value and sm_value.decode('utf-8') == '1':
+                # Clear flag in Redis
+                r.set(sm_key, '0')
+                
+                # Print note details
+                note_path = os.path.join(sm_dir, f"sm{i}.txt")
+                with open(sm_path, 'r') as f:
+                    sm_text = f.read()
+                    p.text(sm_text)
                     p.cut()
 
         # Sleep for a small duration
